@@ -1,5 +1,5 @@
 # OpenZ3Gateway
-An open source Zstack3 gateway based powered by ESP8266 and CC2652P modules
+An open source Zstack3 gateway powered by ESP8266 and CC2652P modules
 
 This repository includes 
 1. Altium Designer schema and PCB files
