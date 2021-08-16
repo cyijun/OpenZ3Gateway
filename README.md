@@ -1,9 +1,13 @@
 # OpenZ3Gateway
 An open source Zstack3 gateway powered by ESP8266 and CC2652P modules. The cost of it is less than 100 CNY in China.
 
+![image](https://github.com/cyijun/OpenZ3Gateway/blob/main/images/Board.jpg)
+![image](https://github.com/cyijun/OpenZ3Gateway/blob/main/images/Flashing.jpg)
+![image](https://github.com/cyijun/OpenZ3Gateway/blob/main/images/Running.jpg)
+
 ## This repository includes 
 1. Altium Designer schematic and PCB files
-2. schematic in PDF
+2. Schematic and PCB in PDF
 3. Gerber files
 4. A lite Arduino Ser2Net project for ESP8266 based on <https://github.com/dparnell/esp8266-ser2net>
 
