@@ -9,17 +9,9 @@
 #include <WiFiManager.h>
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
-#include "EspMQTTClient.h"
 // application config
-
-const String strHWID = "esp-ser2net";
+const String strHWID = "zigbee-serial_" + String(ESP.getChipId(), HEX);
 const char *HWID = strHWID.c_str();
-
-EspMQTTClient mqttClient(
-    "your server", // MQTT Broker server ip
-    1883,             // The MQTT port, default to 1883. this line can be omitted
-    HWID              // Client name that uniquely identify your device
-);
 
 #define BAUD_RATE 115200
 #define TCP_LISTEN_PORT 1234
@@ -32,21 +24,20 @@ WiFiServer server(TCP_LISTEN_PORT);
 void setup(void)
 {
     WiFi.mode(WIFI_STA);
+    WiFi.hostname(strHWID);
+    WiFi.setAutoReconnect(true);
+    WiFi.persistent(true);
 
     Serial.begin(BAUD_RATE);
 
     WiFiManager wm;
-    bool res = wm.autoConnect("ESP-Ser2Net", "espconfig");
+    bool res = wm.autoConnect(HWID, "espconfig");
+    // wm.resetSettings();
 
     if (!res)
     {
         ESP.restart(); // restart when failed
     }
-
-    // Optionnal functionnalities of EspMQTTClient :
-    //mqttClient.enableDebuggingMessages();                                  // Enable debugging messages sent to serial output
-    mqttClient.enableHTTPWebUpdater();                                                    // Enable the web updater. User and password default to values of MQTTUsername and MQTTPassword. These can be overrited with enableHTTPWebUpdater("user", "password").
-    mqttClient.enableLastWillMessage("ser2net/lastwill", (strHWID + " offline").c_str()); // You can activate the retain flag by setting the third parameter to true
 
     // Start TCP server
     server.begin();
@@ -54,18 +45,6 @@ void setup(void)
 #ifdef USE_WDT
     wdt_enable(1000);
 #endif
-}
-
-void onConnectionEstablished()
-{
-    // Subscribe to "mytopic/test" and display received message to Serial
-    mqttClient.subscribe("zigbee-serial/ctrl", [](const String &payload)
-                         {
-                             if (payload == "reset")
-                             {
-                                 ESP.reset();
-                             }
-                         });
 }
 
 WiFiClient wClient;
@@ -79,8 +58,6 @@ void loop(void)
 #ifdef USE_WDT
     wdt_reset();
 #endif
-
-    mqttClient.loop();
 
     if (WiFi.status() != WL_CONNECTED)
     {
