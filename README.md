@@ -1,5 +1,5 @@
 # OpenZ3Gateway
-An open source Zstack3 gateway powered by ESP8266 and CC2652P modules. The cost of it is less than 100 CNY in China.
+An open source Zstack3 gateway powered by ESP8266 and CC2652P modules. One costs less than 60 CNY in China.
 
 ![image](https://github.com/cyijun/OpenZ3Gateway/blob/main/images/Board.jpg)
 ![image](https://github.com/cyijun/OpenZ3Gateway/blob/main/images/Flashing.jpg)
